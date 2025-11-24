@@ -8,14 +8,14 @@ The solution utilizes a hybrid approach:
 2.  **NLP & Transformer Models:** For semantic analysis, tone detection, and sentiment scoring.
 
 ## Repository Structure
-
+```text
 ├── app.py                 # Main Streamlit application (Frontend & State Management)
 ├── scoring_logic.py       # Rubric calculation engine (Rule-based logic)
 ├── ai_models.py           # AI Inference engine (HuggingFace Transformers)
 ├── requirements.txt       # Python dependencies
 ├── packages.txt           # System-level dependencies (Java for LanguageTool)
 └── README.md              # Project documentation
-
+```
 ## Key Features & Implementation
 Hybrid Scoring Engine: Combines deterministic rules with probabilistic AI models to generate a final score (0-100).
 
