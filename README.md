@@ -7,6 +7,9 @@ The solution utilizes a hybrid approach:
 1.  **Rule-Based Logic:** For strict adherence to rubric constraints (Speech Rate, Grammar, Keyword Presence).
 2.  **NLP & Transformer Models:** For semantic analysis, tone detection, and sentiment scoring.
 
+## Deployed Link
+https://nirmaan-aitool.streamlit.app/
+
 ## Repository Structure
 ```text
 ├── app.py                 # Main Streamlit application (Frontend & State Management)
