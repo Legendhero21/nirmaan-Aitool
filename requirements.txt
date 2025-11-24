@@ -1,0 +1,11 @@
+streamlit
+pandas
+plotly
+textblob
+language-tool-python
+spacy
+sentence-transformers
+transformers
+torch
+sentencepiece
+protobuf
