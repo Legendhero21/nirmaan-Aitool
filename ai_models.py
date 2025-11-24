@@ -38,13 +38,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # --- FEATURE FLAGS ---
-ENABLE_TONE_ANALYSIS = False  # Requires PyTorch 2.6+, disabled due to security restrictions
-ENABLE_SEMANTIC_ANALYSIS = True  # Optional but working
+ENABLE_TONE_ANALYSIS = False
+ENABLE_SEMANTIC_ANALYSIS = True  
 
 # --- MODEL CONFIGURATION ---
 # Distilled models for faster CPU inference in deployment
 SENTIMENT_MODEL = "distilbert-base-uncased-finetuned-sst-2-english"
-TONE_MODEL = "valhalla/distilbart-mnli-12-3"  # Zero-shot classifier (disabled)
+TONE_MODEL = "MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33"
 SEMANTIC_MODEL = "all-MiniLM-L6-v2"  # 80MB, fast inference
 
 # Token limits for each model (prevents memory issues)
@@ -141,14 +141,14 @@ def load_sentiment_pipeline():
 @st.cache_resource(show_spinner=False)
 def load_tone_pipeline():
     """
-    Loads the Zero-Shot Classification pipeline for complex tone detection.
-    **CURRENTLY DISABLED** due to PyTorch version requirements.
+    Loads the Zero-Shot Classification pipeline for tone detection.
+    Using a lighter, more compatible model.
     
     Returns:
         Tone classification pipeline or None if loading fails
     """
     if not ENABLE_TONE_ANALYSIS:
-        logger.info("⏭️ Tone analysis disabled (requires PyTorch 2.6+)")
+        logger.info("⏭️ Tone analysis disabled")
         return None
     
     if not TRANSFORMERS_AVAILABLE:
@@ -160,9 +160,10 @@ def load_tone_pipeline():
             logger.info("Loading Zero-Shot Tone Model...")
             start_time = time.time()
             
+            # Use a more compatible model (no PyTorch 2.6 requirement)
             model = pipeline(
                 "zero-shot-classification",
-                model=TONE_MODEL,
+                model="facebook/bart-large-mnli",  # ✅ More compatible
                 device=DEVICE
             )
             
@@ -172,6 +173,7 @@ def load_tone_pipeline():
             
     except Exception as e:
         logger.error(f"❌ Failed to load tone model: {e}")
+        logger.info("💡 Falling back to sentiment-based tone estimation")
         return None
 
 
